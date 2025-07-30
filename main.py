@@ -5,8 +5,8 @@ Below each of the comments, code the statement or statements to satisfy
 the requirement specified in the comment.
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Lichao Huang"
+__version__ = "1.0.0"
 __credits__ = "COMP-1327 Faculty"
 
 # 1. Create an instance of the Mortgage class. Initialize the object
