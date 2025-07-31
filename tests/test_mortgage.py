@@ -276,5 +276,10 @@ class TestMortgage(unittest.TestCase):
         )
         self.assertEqual(str(mortgage), expected)
 
+    def test_repr(self):
+        mortgage = Mortgage(10000, 0.05, 5, PaymentFrequency.MONTHLY)
+        expected = "Mortgage(10000, 0.0500, 5, MONTHLY)"
+        self.assertEqual(repr(mortgage), expected)
+
 if __name__ == '__main__':
     unittest.main()
