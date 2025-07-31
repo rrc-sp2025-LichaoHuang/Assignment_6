@@ -81,3 +81,26 @@ class Mortgage:
             self._Frequency = value
         else:
             raise ValueError("Frequency must be a value of PaymentFrequency type.")
+        
+
+    def get_payment(self) -> float:
+        P = self._Loan_Amount
+        payments_per_year = self._Frequency.value
+        i = self._Annual_Interest_Rate / payments_per_year
+        n = self._Amortization * payments_per_year
+
+        if i == 0:
+            return P / n  # 零利率情况：平均还款
+
+        factor = (1 + i) ** n
+        payment = P * (i * factor) / (factor - 1)
+        return round(payment, 2)
+    
+
+    def __str__(self):
+        payment = self.get_payment()
+        return (f"Mortgage Amount: ${self._Loan_Amount:,.2f}\n"
+                f"Rate: {self._Annual_Interest_Rate * 100:.2f}%\n"
+                f"Amortization: {self._Amortization}\n"
+                f"Frequency: {self._Frequency.name}\n"
+                f" -- Calculated Payment: ${payment:,.2f}")

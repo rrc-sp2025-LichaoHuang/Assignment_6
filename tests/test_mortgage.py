@@ -244,6 +244,37 @@ class TestMortgage(unittest.TestCase):
             mortgage.frequency = "WEEKLY" 
         self.assertEqual(str(context.exception),expected)
 
+#########################################################################
+
+    def test_case1(self):
+        # 贷款金额: 150,000，利率：4.2%，摊还期10年，按月付
+        mortgage = Mortgage(150000, 0.042, 10, PaymentFrequency.MONTHLY)
+        payment = mortgage.get_payment()
+        self.assertAlmostEqual(payment, 1532.98)
+
+    def test_case2(self):
+        # 贷款金额: 500,000，利率：3%，摊还期30年，按双周付
+        mortgage = Mortgage(500000, 0.03, 30, PaymentFrequency.BI_WEEKLY)
+        payment = mortgage.get_payment()
+        self.assertAlmostEqual(payment, 972.53)  
+
+    def test_case3(self):
+        # 贷款金额: 250,000，利率：3.8%，摊还期20年，按月付
+        mortgage = Mortgage(250000, 0.038, 20, PaymentFrequency.MONTHLY)
+        payment = mortgage.get_payment()
+        self.assertAlmostEqual(payment, 1488.73)
+
+
+    def test_str(self):
+        mortgage = Mortgage(10000, 0.05, 5, PaymentFrequency.MONTHLY)
+        expected = (
+            "Mortgage Amount: $10,000.00\n"
+            "Rate: 5.00%\n"
+            "Amortization: 5\n"
+            "Frequency: MONTHLY\n"
+            " -- Calculated Payment: $188.71"
+        )
+        self.assertEqual(str(mortgage), expected)
 
 if __name__ == '__main__':
     unittest.main()
