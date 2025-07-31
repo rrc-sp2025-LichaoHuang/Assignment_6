@@ -98,5 +98,152 @@ class TestMortgage(unittest.TestCase):
         self.assertEqual(mortgage._Amortization, amortization)
         self.assertEqual(mortgage._Frequency, frequency)
 
+    ####################  Mutators for Loan Amount  ####################
+
+    def test_mutators_for_Loan_Amount_Valid(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = 200
+        #act
+        mortgage.Loan_Amount = 200
+        #assert
+        self.assertEqual(expected, mortgage.Loan_Amount)
+
+    def test_mutators_for_Loan_Amount_TypError(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Loan amount must be a value of a numeric type."
+        #act
+        with self.assertRaises(TypeError) as context:
+            mortgage.Loan_Amount = "aa"
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_for_Loan_Amount_0(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Loan Amount must be a value greater than zero."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.Loan_Amount = 0
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_for_Loan_Amount_negative(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Loan Amount must be a value greater than zero."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.Loan_Amount = -1
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    ####################  Mutators for Annual Interest Rate  ####################
+
+    def test_mutators_Annual_Interest_Rate_Valid(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = 0.66
+        #act
+        mortgage._Annual_Interest_Rate = 0.66
+        #assert
+        self.assertEqual(expected, mortgage._Annual_Interest_Rate)
+
+    def test_mutators_for_Annual_Interest_Rate_TypError(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Loan amount must be a value of a numeric type."
+        #act
+        with self.assertRaises(TypeError) as context:
+            mortgage.annual_interest_rate = "aa"
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_for_Annual_Interest_Rate_0(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Annual interest rate must be greater than 0 and less than or equal to 1."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.annual_interest_rate = 0
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_for_Annual_Interest_Rate_negative(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Annual interest rate must be greater than 0 and less than or equal to 1."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.annual_interest_rate = -1
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_for_Annual_Interest_Rate_grater_then_1(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Annual interest rate must be greater than 0 and less than or equal to 1."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.annual_interest_rate = 1.1
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    ####################  Mutators for Amortization  ####################
+
+    def test_mutators_Amortization_valid(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = 30
+        #act
+        mortgage.amortization = 30
+        #assert
+        self.assertEqual(expected, mortgage.amortization)
+
+    def test_mutators_Amortization_invalid_aa(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Amortization must be a value in [5, 10, 15, 20, 25, 30]."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.amortization = "aa"
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    def test_mutators_Amortization_invalid_11(self):
+        #arrange
+        mortgage = Mortgage(100, 0.5, 5, Frequency=PaymentFrequency.MONTHLY)
+        expected = "Amortization must be a value in [5, 10, 15, 20, 25, 30]."
+        #act
+        with self.assertRaises(ValueError) as context:
+            mortgage.amortization = 11
+
+        #assert
+        self.assertEqual(expected, str(context.exception))
+
+    ####################  Mutators for Frequency  ####################
+
+    def test_frequency_setter_valid(self):
+        mortgage = Mortgage(100000, 0.05, 25, PaymentFrequency.MONTHLY)
+        mortgage.frequency = PaymentFrequency.BI_WEEKLY
+        self.assertEqual(mortgage.frequency, PaymentFrequency.BI_WEEKLY)
+
+    def test_frequency_setter_invalid_type(self):
+        mortgage = Mortgage(100000, 0.05, 25, PaymentFrequency.MONTHLY)
+        expected = "Frequency must be a value of PaymentFrequency type."
+        with self.assertRaises(ValueError) as context:
+            mortgage.frequency = "WEEKLY" 
+        self.assertEqual(str(context.exception),expected)
+
+
 if __name__ == '__main__':
     unittest.main()

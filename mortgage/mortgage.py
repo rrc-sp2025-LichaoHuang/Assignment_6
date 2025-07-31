@@ -32,4 +32,52 @@ class Mortgage:
             self._Frequency = Frequency
         else:
             raise ValueError("Frequency must be a value of PaymentFrequency type.")
+
+    @property
+    def Loan_Amount(self):
+        return self._Loan_Amount
+    
+    @property
+    def annual_interest_rate(self):
+        return self._Annual_Interest_Rate
+
+    @property
+    def amortization(self):
+        return self._Amortization
+    
+    @property
+    def frequency(self):
+        return self._Frequency
+    
+
+    @Loan_Amount.setter
+    def Loan_Amount(self, value):
+        if isinstance(value, (int, float)):
+            if value <= 0:
+                raise ValueError("Loan Amount must be a value greater than zero.")
+            self._Loan_Amount = value
+        else:
+            raise TypeError("Loan amount must be a value of a numeric type.")
         
+    @annual_interest_rate.setter
+    def annual_interest_rate(self, value):
+        if isinstance(value, (int, float)):
+            if 0 < value <= 1:
+                self._Annual_Interest_Rate = value
+            else:
+                raise ValueError("Annual interest rate must be greater than 0 and less than or equal to 1.")
+        else:
+            raise TypeError("Annual interest rate must be numeric.")
+        
+    @amortization.setter
+    def amortization(self, value):
+        if value not in Mortgage._years:
+            raise ValueError("Amortization must be a value in [5, 10, 15, 20, 25, 30].")
+        self._Amortization = value
+    
+    @frequency.setter
+    def frequency(self, value):
+        if isinstance(value, PaymentFrequency):
+            self._Frequency = value
+        else:
+            raise ValueError("Frequency must be a value of PaymentFrequency type.")
